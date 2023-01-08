@@ -15,4 +15,4 @@ jobs:
             - name: Pull
               env:
                 HOST: ${{ secrets.SSH_HOST }}
-              run: ssh -i private.key ubuntu@$"$HOST" "cd Projects/handbookhub_server && git pull origin main"
+              run: ssh -i private.key ubuntu@"$HOST" "cd Projects/handbookhub_server && git pull origin main"
