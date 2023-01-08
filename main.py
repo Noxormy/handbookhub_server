@@ -1,3 +1,8 @@
+"""
+    Start point of the program
+    Init schema fo graphql and run fastapi server
+"""
+
 import strawberry
 from fastapi import FastAPI
 from strawberry.asgi import GraphQL

@@ -1,0 +1,8 @@
+[MASTER]
+disable=
+    W1203, # logging-fstring-interpolation, f"{variable}" format is cleaner
+    R0903, # too-few-public-methods, we want to create classes even with few methods like Query
+
+[FORMAT]
+good-names: i, j, cb, ch, fh, sh
+max-line-length=240
