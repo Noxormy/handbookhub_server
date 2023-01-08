@@ -15,13 +15,9 @@ jobs:
                   known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
                   config: ${{ secrets.CONFIG }} # ssh_config; optional
                   if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-            - name: Connect
-              env:
-                HOST: ${{ secrets.SSH_HOST }}
-              run: ssh ubuntu@"$HOST"
             - name: Pull
-              run: cd ~/Projects/handbookhub_server && git pull origin main
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && git pull origin main"
             - name: Update submodules
-              run: git submodule update --remote --recursive
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && git submodule update --remote --recursive"
             - name: Update packages
-              run: source venv/bin/activate && pip install -r requirements.txt
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && source venv/bin/activate && pip install -r requirements.txt"
