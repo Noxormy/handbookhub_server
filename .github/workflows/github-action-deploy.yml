@@ -11,8 +11,8 @@ jobs:
               shell: bash
               env:
                 KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-              run: echo "$KEY" > private.key && chmod 400 private.key && echo "$(cat private.key)"
+              run: echo "$KEY" > private.key && chmod 400 private.key
             - name: Pull
               env:
                 HOST: ${{ secrets.SSH_HOST }}
-              run: ssh -i private.key ubuntu@"$HOST" "cd Projects/handbookhub_server && git pull origin main"
+              run: echo "$(cat private.key)" && ssh -i private.key ubuntu@"$HOST" "cd Projects/handbookhub_server && git pull origin main"
