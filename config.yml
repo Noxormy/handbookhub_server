@@ -1,0 +1,5 @@
+data_folder: "data/Germany"
+icon_name: "Icon.png"
+file_names:
+  description: "description.md"
+  content: "en.md"
