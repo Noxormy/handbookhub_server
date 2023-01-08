@@ -20,4 +20,8 @@ jobs:
                 HOST: ${{ secrets.SSH_HOST }}
               run: ssh ubuntu@"$HOST"
             - name: Pull
-              run: cd Projects/handbookhub_server && git pull origin main
+              run: cd ~/Projects/handbookhub_server && git pull origin main
+            - name: Update submodules
+              run: git submodule update --remote --recursive
+            - name: Update packages
+              run: source venv/bin/activate && pip install -r requirements.txt
