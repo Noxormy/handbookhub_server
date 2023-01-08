@@ -25,4 +25,4 @@ jobs:
             - name: Update packages
               run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && source venv/bin/activate && pip install -r requirements.txt"
             - name: Reboot service
-              run: sudo systemctl restart "$SERVICE" && sudo systemctl status "$SERVICE"
+              run: ssh ubuntu@"$HOST" "sudo systemctl restart "$SERVICE" && sudo systemctl status "$SERVICE""
