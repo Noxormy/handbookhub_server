@@ -8,11 +8,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Install SSH Key
-              shell: bash
-              env:
-                KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-              run: echo "$KEY" > private.key && chmod 400 private.key
+              uses: shimataro/ssh-key-action@v2
+              with:
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  name: id_rsa # optional
+                  known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+                  config: ${{ secrets.CONFIG }} # ssh_config; optional
+                  if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
             - name: Pull
               env:
                 HOST: ${{ secrets.SSH_HOST }}
-              run: ssh -i private.key ubuntu@"$HOST" "cd Projects/handbookhub_server && git pull origin main"
+              run: ssh ubuntu@"$HOST" "cd Projects/handbookhub_server && git pull origin main"
