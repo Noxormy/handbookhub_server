@@ -8,6 +8,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Install SSH Key
-              run: echo {{ secrets.SSH_PRIVATE_KEY }} > private.key
+              run: echo "{{ secrets.SSH_PRIVATE_KEY }}" > private.key && chmod 400 private.key
             - name: Pull
               run: ssh -i private.key ubuntu@${{ secrets.SSH_HOST }} "cd Projects/handbookhub_server && git pull origin main"
