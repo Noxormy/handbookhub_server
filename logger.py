@@ -29,10 +29,10 @@ class CustomHandler(logging.Handler):
 def init_logger():
     """
     Init logger with two standard log handlers: FileHandler and StreamHandler
-    FileHandler will write logs to "logs.txt" file in the root directory
+    FileHandler will write logs to "log.txt" file in the root directory
     StreamHandler will write logs to the terminal output
     """
-    fh = logging.FileHandler("logs.txt")
+    fh = logging.FileHandler("log.txt")
     fh.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         "%(asctime)s %(levelname)s: (%(filename)s:%(lineno)d %(threadName)s): %(message)s",
