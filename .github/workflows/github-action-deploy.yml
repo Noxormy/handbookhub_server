@@ -9,9 +9,9 @@ jobs:
         steps:
             - name: Install SSH Key
               env:
-                KEY: {{ secrets.SSH_PRIVATE_KEY }}
+                KEY: ${{ secrets.SSH_PRIVATE_KEY }}
               run: echo "$KEY" > private.key && chmod 400 private.key
             - name: Pull
               env:
-                HOST: {{ secrets.SSH_HOST }}
+                HOST: ${{ secrets.SSH_HOST }}
               run: ssh -i private.key ubuntu@$"$HOST" "cd Projects/handbookhub_server && git pull origin main"
