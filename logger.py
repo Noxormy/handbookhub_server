@@ -1,5 +1,5 @@
 """
-    This module init logging classes, state format for messages and provide interfaces for creating the new ones
+    Init logging classes, state format for messages and provide interfaces for creating the new ones
 """
 
 from typing import Callable

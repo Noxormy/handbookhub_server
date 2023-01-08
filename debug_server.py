@@ -1,5 +1,5 @@
 """
-    This module required for run server with uvicorn
+    Required for run server with uvicorn
     It is used for debugging in IDE or if you want to run it with simple python command, not unvicorn
 """
 

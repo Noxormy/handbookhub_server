@@ -1,5 +1,5 @@
 """
-    This module provide config class and methods which may be useful for it
+    Provides config class and methods which may be useful for it
 """
 from collections import namedtuple
 from file_system import get_yaml_file

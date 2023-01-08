@@ -1,5 +1,5 @@
 """
-    This module states all the schema types and provide resolvers for them
+    Sets all the schema types and provide resolvers for them
 """
 
 

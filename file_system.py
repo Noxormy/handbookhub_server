@@ -1,5 +1,5 @@
 """
-    This module provide functions which help get data from disk
+    Provides functions which help get data from disk
 """
 
 import os
