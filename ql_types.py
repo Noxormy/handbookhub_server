@@ -94,8 +94,8 @@ class Query:
 
     @strawberry.field
     def image(self, path: str) -> str:
-        full_path = os.path.join(config.data_folder, path)
-        if not full_path.endswith(config.icon_name) or not os.path.isfile(full_path):
+        full_path = os.path.join(config.data_folder, path, config.icon_name)
+        if not os.path.isfile(full_path):
             return ""
 
         return get_base64_image(full_path)
