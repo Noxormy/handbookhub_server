@@ -20,6 +20,7 @@ class Config:
     icon_name: str = ""
     file_names: namedtuple = namedtuple("file_names", ["description", "content"])
     ip: str = ""
+    port: str = ""
     routes: namedtuple = RoutesTuple("image")
 
     def __init__(self, config_dict):
@@ -36,6 +37,7 @@ class Config:
             setattr(self.file_names, name, file_name)
 
         self.ip = request.urlopen("https://checkip.amazonaws.com").read().decode("utf8").strip("\n")
+        self.port = config_dict["port"]
 
 
 config = Config(get_yaml_file("config.yml"))

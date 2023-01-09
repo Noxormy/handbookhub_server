@@ -39,7 +39,7 @@ class Article:
     @strawberry.field
     def icon(self) -> str:
         """link to the image on the current server"""
-        return f"http://{config.ip}/{config.routes.image}?path={self.path}"
+        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}"
 
 
 @strawberry.type
@@ -59,7 +59,7 @@ class Category:
     @strawberry.field
     def icon(self) -> str:
         """link to the image on the current server"""
-        return f"http://{config.ip}/{config.routes.image}?path={self.path}"
+        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}"
 
     @strawberry.field
     def article(self, article_name: Optional[str] = None) -> List[Article]:
