@@ -1,9 +1,11 @@
 """
     Provides config class and methods which may be useful for it
 """
+from urllib import request
 from collections import namedtuple
 from file_system import get_yaml_file
 
+RoutesTuple = namedtuple("routes", ["image"])
 
 class Config:
     """
@@ -17,6 +19,8 @@ class Config:
     data_folder: str = ""
     icon_name: str = ""
     file_names: namedtuple = namedtuple("file_names", ["description", "content"])
+    ip: str = ""
+    routes: namedtuple = RoutesTuple("image")
 
     def __init__(self, config_dict):
         assert isinstance(config_dict["data_folder"], str) and len(config_dict["data_folder"]) > 0, "There is should be not empty data folder"
@@ -30,6 +34,8 @@ class Config:
             assert isinstance(file_name, str) and file_name.endswith(".md"), "File names should have .md extension"
 
             setattr(self.file_names, name, file_name)
+
+        self.ip = request.urlopen("https://checkip.amazonaws.com").read().decode("utf8").strip("\n")
 
 
 config = Config(get_yaml_file("config.yml"))

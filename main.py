@@ -7,7 +7,7 @@ import strawberry
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.asgi import GraphQL
-from ql_types import Query
+from ql_types import Query, get_image
 
 schema = strawberry.Schema(query=Query)
 graphql_app = GraphQL(schema)
@@ -15,6 +15,12 @@ graphql_app = GraphQL(schema)
 app = FastAPI()
 app.add_route("/graphql", graphql_app)
 app.add_websocket_route("/graphql", graphql_app)
+
+
+@app.get("/image")
+def route(path: str):
+    return get_image(path)
+
 
 origins = ["*"]
 

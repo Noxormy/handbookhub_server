@@ -11,6 +11,23 @@ from logger import logger
 ENCODING = "utf-8"
 
 
+def get_image(path: str) -> bytes:
+    """
+    Returns bytes of image at the following path
+    Or empty string if there is no file
+            Parameters:
+                    path: str - A path to an image
+            Returns:
+                    bytes - image bytes
+    """
+    if not os.path.exists(path) or os.path.isdir(path):
+        logger.error(f"Can't find image on path {path}")
+        return bytearray()
+
+    with open(path, "rb") as file:
+        return file.read()
+
+
 def get_base64_image(path: str) -> str:
     """
     Returns the base64 encoded string of image at the following path

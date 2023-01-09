@@ -6,8 +6,9 @@
 import os
 from typing import Optional, List
 import strawberry
+from starlette.responses import FileResponse
 
-from file_system import get_text_file, get_base64_image
+from file_system import get_text_file
 from config import config
 
 
@@ -37,8 +38,8 @@ class Article:
 
     @strawberry.field
     def icon(self) -> str:
-        """base64 string of the image"""
-        return get_base64_image(os.path.join(config.data_folder, self.path, config.icon_name))
+        """link to the image on the current server"""
+        return f"http://{config.ip}/{config.routes.image}/{self.path}"
 
 
 @strawberry.type
@@ -57,8 +58,8 @@ class Category:
 
     @strawberry.field
     def icon(self) -> str:
-        """base64 string of the image"""
-        return get_base64_image(os.path.join(config.data_folder, self.name, config.icon_name))
+        """link to the image on the current server"""
+        return f"http://{config.ip}/{config.routes.image}/{self.path}"
 
     @strawberry.field
     def article(self, article_name: Optional[str] = None) -> List[Article]:
@@ -92,10 +93,10 @@ class Query:
 
         return []
 
-    @strawberry.field
-    def image(self, path: str) -> str:
-        full_path = os.path.join(config.data_folder, path, config.icon_name)
-        if not os.path.isfile(full_path):
-            return ""
 
-        return get_base64_image(full_path)
+def get_image(path: str):
+    full_path = os.path.join(config.data_folder, path, config.icon_name)
+    if not os.path.isfile(full_path):
+        return ""
+
+    return FileResponse(full_path)
