@@ -19,10 +19,10 @@ jobs:
                   config: ${{ secrets.CONFIG }} # ssh_config; optional
                   if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
             - name: Pull
-              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && git pull origin main"
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/server && git pull origin main"
             - name: Update submodules
-              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && git submodule update --init --remote"
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/server && git submodule update --init --remote"
             - name: Update packages
-              run: ssh ubuntu@"$HOST" "cd ~/Projects/handbookhub_server && source venv/bin/activate && pip install -r requirements.txt"
+              run: ssh ubuntu@"$HOST" "cd ~/Projects/server && source venv/bin/activate && pip install -r requirements.txt"
             - name: Reboot service
               run: ssh ubuntu@"$HOST" "sudo systemctl restart "$SERVICE" && sudo systemctl status "$SERVICE""
