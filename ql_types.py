@@ -91,3 +91,11 @@ class Query:
             return [Category(name=category_name, path=category_name)]
 
         return []
+
+    @strawberry.field
+    def image(self, path: str) -> str:
+        full_path = os.path.join(config.data_folder, path)
+        if not full_path.endswith(config.icon_name) or not os.path.isfile(full_path):
+            return ""
+
+        return get_base64_image(full_path)
