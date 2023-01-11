@@ -4,12 +4,37 @@
 
 
 import os
+from io import BytesIO
 from typing import Optional, List
 import strawberry
-from starlette.responses import FileResponse
+from PIL import Image
+from starlette.responses import Response
 
 from file_system import get_text_file
 from config import config
+
+
+@strawberry.type
+class Icons:
+    """
+    Contains all icon sizes
+            Fields:
+                path: str - path of the article directory
+                description: str - description of the article
+                content: str - string of the .md article file content
+                icon: str - base64 string of the image
+    """
+    path: str
+
+    @strawberry.field
+    def default(self) -> str:
+        """link to the image on the current server"""
+        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}"
+
+    @strawberry.field
+    def thumbnail(self) -> str:
+        """link to the small version of image on the current server"""
+        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}&thumbnail={True}"
 
 
 @strawberry.type
@@ -37,9 +62,9 @@ class Article:
         return get_text_file(os.path.join(config.data_folder, self.path, config.file_names.content))
 
     @strawberry.field
-    def icon(self) -> str:
-        """link to the image on the current server"""
-        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}"
+    def icons(self) -> Icons:
+        """object containing all versions of the icon"""
+        return Icons(path=self.path)
 
 
 @strawberry.type
@@ -57,9 +82,9 @@ class Category:
     path: str
 
     @strawberry.field
-    def icon(self) -> str:
-        """link to the image on the current server"""
-        return f"http://{config.ip}:{config.port}/{config.routes.image}?path={self.path}"
+    def icons(self) -> Icons:
+        """object containing all versions of the icon"""
+        return Icons(path=self.path)
 
     @strawberry.field
     def article(self, article_name: Optional[str] = None) -> List[Article]:
@@ -94,9 +119,19 @@ class Query:
         return []
 
 
-def get_image(path: str):
+def get_image(path: str, thumbnail: bool):
     full_path = os.path.join(config.data_folder, path, config.icon_name)
     if not os.path.isfile(full_path):
         return ""
 
-    return FileResponse(full_path)
+    image = Image.open(full_path)
+
+    if thumbnail:
+        max_size = (50, 50)
+        image.thumbnail(max_size)
+
+    file_stream = BytesIO()
+    image.save(file_stream, "png")
+    file_stream.seek(0)
+
+    return Response(file_stream.getvalue(), media_type="image/png")

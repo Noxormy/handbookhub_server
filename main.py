@@ -18,8 +18,8 @@ app.add_websocket_route("/graphql", graphql_app)
 
 
 @app.get("/image")
-def route(path: str):
-    return get_image(path)
+def route(path: str, thumbnail: bool = False):
+    return get_image(path, thumbnail)
 
 
 origins = ["*"]
